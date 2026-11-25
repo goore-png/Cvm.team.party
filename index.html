@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CVM Team Party 🎄</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+ font-family:Arial,sans-serif;overflow:hidden;
+ background:radial-gradient(circle at top,#173d32 0,#071d18 45%,#03100d 100%);
+ color:white;
+}
+.snow{position:fixed;inset:0;pointer-events:none;background-image:
+ radial-gradient(#fff 1px,transparent 1px),radial-gradient(#fff 1px,transparent 1px);
+ background-size:45px 45px,70px 70px;background-position:0 0,20px 25px;opacity:.35}
+.card{
+ position:relative;width:min(92%,560px);padding:34px 24px 38px;text-align:center;
+ background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);
+ border-radius:28px;box-shadow:0 20px 70px #0009;backdrop-filter:blur(10px)
+}
+.tree{font-size:58px;margin-bottom:4px}
+h1{font-size:23px;line-height:1.45;margin:5px 0 22px}
+.gifts{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:12px 0 25px}
+.gift{
+ width:62px;height:62px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+ font-size:34px;background:linear-gradient(145deg,#d91e45,#7d1029);
+ box-shadow:0 7px 18px #0006
+}
+.beer{background:linear-gradient(145deg,#f0a51c,#8b4d05)}
+.buttons{display:flex;justify-content:center;gap:16px}
+button{
+ border:0;border-radius:999px;padding:15px 30px;font-size:18px;font-weight:700;
+ cursor:pointer
+}
+#yes{background:#e52e58;color:#fff;box-shadow:0 7px 20px #0005}
+#no{background:#eee;color:#222;position:fixed;z-index:10}
+.modal{
+ display:none;position:fixed;inset:0;z-index:20;background:#0009;
+ align-items:center;justify-content:center;padding:20px
+}
+.box{
+ width:min(92%,470px);background:#fff;color:#222;border-radius:24px;padding:25px;
+ box-shadow:0 20px 70px #0009
+}
+.box h2{text-align:center;margin:0 0 8px}
+.box p{text-align:center;color:#555;margin:0 0 18px}
+textarea{
+ width:100%;min-height:140px;border:1px solid #ddd;border-radius:14px;padding:14px;
+ font-size:16px;resize:vertical;font-family:inherit
+}
+.send{width:100%;margin-top:12px;background:#e52e58;color:#fff}
+.close{width:100%;margin-top:8px;background:#eee;color:#333}
+.note{font-size:12px;color:#777;text-align:center;margin-top:9px}
+</style>
+</head>
+<body>
+<div class="snow"></div>
+
+<div class="card">
+  <div class="tree">🎄</div>
+  <h1>Хагас сайн өдрийн орой 19:00 цагаас<br>CVM Team Party-тай.<br>Чи ирэх үү?</h1>
+
+  <div class="gifts">
+    <div class="gift">🎁</div>
+    <div class="gift">🎁</div>
+    <div class="gift">🎁</div>
+    <div class="gift beer">🍺</div>
+    <div class="gift beer">🍺</div>
+    <div class="gift beer">🍺</div>
+    <div class="gift beer">🍺</div>
+  </div>
+
+  <div class="buttons">
+    <button id="yes">YES ❤️</button>
+  </div>
+</div>
+
+<button id="no">NO 😏</button>
+
+<div class="modal" id="modal">
+  <div class="box">
+    <h2>🎁 Баярлалаа! 🎄</h2>
+    <p>Нэмэлт асуух зүйл, хэлэх зүйл байвал энд бичээрэй.</p>
+    <form id="mailForm">
+      <textarea id="message" placeholder="Энд мессежээ бичээрэй..." required></textarea>
+      <button class="send" type="submit">EMAIL-ЭЭР ИЛГЭЭХ 📩</button>
+      <button class="close" type="button" id="close">ХААХ</button>
+      <div class="note">Таны email програм нээгдээд мессеж бэлэн болно.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+const no=document.getElementById('no');
+function escapeNo(){
+ const pad=12;
+ const x=pad+Math.random()*Math.max(1,innerWidth-no.offsetWidth-pad*2);
+ const y=pad+Math.random()*Math.max(1,innerHeight-no.offsetHeight-pad*2);
+ no.style.left=x+'px'; no.style.top=y+'px';
+}
+['mouseenter','mouseover','pointerdown','touchstart','focus','click'].forEach(e=>{
+ no.addEventListener(e,x=>{x.preventDefault();x.stopPropagation();escapeNo()})
+});
+escapeNo();
+
+const modal=document.getElementById('modal');
+document.getElementById('yes').onclick=()=>{modal.style.display='flex';document.getElementById('message').focus()};
+document.getElementById('close').onclick=()=>modal.style.display='none';
+modal.onclick=e=>{if(e.target===modal)modal.style.display='none'};
+
+document.getElementById('mailForm').onsubmit=e=>{
+ e.preventDefault();
+ const msg=document.getElementById('message').value.trim();
+ const subject=encodeURIComponent('CVM Team Party 🎄 — RSVP');
+ const body=encodeURIComponent(
+   'CVM Team Party-д YES дарлаа ❤️\n\nНэмэлт мессеж:\n'+msg
+ );
+ window.location.href='mailto:Tochkagooore@gmail.com?subject='+subject+'&body='+body;
+};
+</script>
+</body>
+</html>
